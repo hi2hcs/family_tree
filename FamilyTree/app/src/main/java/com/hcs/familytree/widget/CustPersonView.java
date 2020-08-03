@@ -1,4 +1,4 @@
-package com.hcs.familytree.familytree;
+package com.hcs.familytree.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,15 +13,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hcs.familytree.R;
 import com.hcs.familytree.model.FamilyMemberModel;
-import com.hcs.familytree.widget.CombinedBaseView;
 
 
 /**
- * Created by wg on 2017/4/20.
+ * Created by hcs on 2017/4/20.
  * 人节点view
  */
 
-public class PersonView2 extends CombinedBaseView {
+public class CustPersonView extends CombinedBaseView {
 
     public FamilyMemberModel familyMemberModel;
 
@@ -39,11 +38,11 @@ public class PersonView2 extends CombinedBaseView {
 
     }
 
-    public PersonView2(Context context, AttributeSet attrs) {
+    public CustPersonView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PersonView2(Context context) {
+    public CustPersonView(Context context) {
         super(context);
     }
 
@@ -57,8 +56,8 @@ public class PersonView2 extends CombinedBaseView {
 
     }
 
-    public static PersonView2 getPersonView(Context context) {
-        return new PersonView2(context);
+    public static CustPersonView getPersonView(Context context) {
+        return new CustPersonView(context);
     }
 
     public void setTitle(String title) {

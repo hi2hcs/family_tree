@@ -1,4 +1,4 @@
-package com.hcs.familytree
+package com.hcs.familytree.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -14,24 +14,25 @@ import io.reactivex.Flowable
 import io.reactivex.FlowableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main3.*
+import kotlinx.android.synthetic.main.activity_main.*
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Environment
 import com.hcs.familytree.R
+import com.hcs.familytree.utils.Preference
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
 
-class Main3Activity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     val TAG = "FamilyMemberEntity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main3)
+        setContentView(R.layout.activity_main)
 
         initView()
 
@@ -167,7 +168,7 @@ class Main3Activity : AppCompatActivity() {
     }
 
     fun save(view: View) {
-        Toast.makeText(this@Main3Activity, "保存", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@MainActivity, "保存", Toast.LENGTH_SHORT).show()
         Thread(Runnable {
             viewSaveToImage(familyMemberLayout)
         }).start()

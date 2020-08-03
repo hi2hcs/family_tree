@@ -7,7 +7,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:gravity="center_horizontal"
-        tools:context="com.hcs.familytree.Main2Activity">
+        tools:context="com.hcs.familytree.ui.InfoActivity">
 
 
     <ImageView

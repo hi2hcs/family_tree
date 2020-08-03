@@ -1,12 +1,12 @@
-package com.hcs.familytree.widget;
+package com.hcs.familytree.model;
 
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 
 /**
- * Created by wg on 2017/4/25.
+ * Created by hcs on 2017/4/25.
  * Ponit 起始点
- * （point，拼写错了，就这样吧）
+ *
  */
 
 public class Ponit {

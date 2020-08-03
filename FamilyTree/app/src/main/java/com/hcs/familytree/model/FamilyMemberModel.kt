@@ -1,7 +1,5 @@
 package com.hcs.familytree.model
 
-import com.hcs.familytree.familytree.TreePoint
-
 /**
  * 家族树数据模型
  * */
@@ -26,9 +24,6 @@ data class FamilyMemberModel(var memberEntity: FamilyMemberEntity) {
     var level = 0
     var mostLeft = false
 
-    // 显示位置的中心点坐标
-    var centerPoint: TreePoint? = null
-
     //顶上中间
     var toParentX = 0
     var toParentY = 0
@@ -37,13 +32,13 @@ data class FamilyMemberModel(var memberEntity: FamilyMemberEntity) {
     var toChildX = 0
     var toChildY = 0
 
-    var startCenterX=0
+    var startCenterX = 0
 
     var flag = 0
     var isSpouse = false
 
     override fun toString(): String {
-        return "{memberEntity=$memberEntity, centerPoint=$centerPoint}"
+        return "{memberEntity=$memberEntity}"
     }
 
 

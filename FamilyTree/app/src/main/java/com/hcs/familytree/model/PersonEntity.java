@@ -1,4 +1,4 @@
-package com.hcs.familytree.widget;
+package com.hcs.familytree.model;
 
 import android.view.View;
 

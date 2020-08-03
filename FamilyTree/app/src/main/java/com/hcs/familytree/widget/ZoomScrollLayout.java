@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import com.orhanobut.logger.Logger;
 
 /**
- * Created by wg on 2017/4/21.
+ * Created by hcs on 2017/4/21.
  */
 
 public class ZoomScrollLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener {

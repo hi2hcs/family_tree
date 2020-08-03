@@ -5,7 +5,6 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.content.Context
 import com.google.gson.annotations.SerializedName
-import com.hcs.familytree.widget.PersonEntity
 
 @Entity(tableName = "members")
 data class FamilyMemberEntity(var name: String) {

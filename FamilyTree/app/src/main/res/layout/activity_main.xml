@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hcs.familytree.widget.ZoomScrollLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<com.hcs.familytree.widget.ZoomScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hcs.familytree.widget.FMLayout
+        android:id="@+id/familyMemberLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.hcs.familytree.MainActivity">
+        android:layout_height="match_parent" />
 
-    <com.hcs.familytree.widget.FamilyTreeView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/familyTree"/>
-
-    <!--<com.wanggang.familytree.familytree.FamilyTreeView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/familyTree"/>-->
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:onClick="save"
+        android:text="保存" />
 </com.hcs.familytree.widget.ZoomScrollLayout>
+

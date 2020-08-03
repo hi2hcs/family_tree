@@ -14,16 +14,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name="com.hcs.familytree.MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+        <activity android:name="com.hcs.familytree.ui.InfoActivity">
         </activity>
-        <activity android:name="com.hcs.familytree.Main2Activity">
-        </activity>
-        <activity android:name="com.hcs.familytree.Main3Activity">
+        <activity android:name="com.hcs.familytree.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

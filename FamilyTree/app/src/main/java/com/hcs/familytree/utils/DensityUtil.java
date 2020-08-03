@@ -1,4 +1,4 @@
-package com.hcs.familytree;
+package com.hcs.familytree.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

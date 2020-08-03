@@ -1,4 +1,4 @@
-package com.hcs.familytree
+package com.hcs.familytree.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -16,17 +16,17 @@ import com.hcs.familytree.R
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_info.*
 
 
-class Main2Activity : AppCompatActivity() {
+class InfoActivity : AppCompatActivity() {
 
     var imagePath: String? = ""
     var mFamilyMember: FamilyMemberEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_info)
 
         var id = intent.getLongExtra("id", -1L)
         var fatherId = intent.getLongExtra("fatherId", -1L)

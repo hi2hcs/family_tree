@@ -1,4 +1,4 @@
-package com.hcs.familytree.widget;
+package com.hcs.familytree.model;
 
 /**
  * Created by wg on 2017/4/20.

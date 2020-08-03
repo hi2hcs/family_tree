@@ -1,8 +1,9 @@
-package com.hcs.familytree
+package com.hcs.familytree.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import com.hcs.familytree.App
 import kotlin.reflect.KProperty
 
 /**

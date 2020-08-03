@@ -1,4 +1,4 @@
-package com.hcs.familytree.familytree
+package com.hcs.familytree.widget
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -11,16 +11,19 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.util.LongSparseArray
 import android.view.ViewGroup
-import com.hcs.familytree.DensityUtil
+import com.hcs.familytree.utils.DensityUtil
 import com.hcs.familytree.model.FamilyDataBaseHelper
 import com.hcs.familytree.model.FamilyMemberModel
 import kotlin.math.max
 import android.support.v4.app.ActivityCompat
 import android.util.Log
-import com.hcs.familytree.Main2Activity
+import com.hcs.familytree.ui.InfoActivity
 import com.hcs.familytree.R
 
-
+/**
+ * 核心类，负责view的测量，布局，线条的绘制
+ * TODO：初步完成基本功能，后期会将对递归算法替换成非递归形式及进行其他优化
+ */
 class FMLayout : ViewGroup {
     val mItemWidth = DensityUtil.dip2px(context, 60f)
     val mItemSpace = DensityUtil.dip2px(context, 10f)
@@ -125,7 +128,7 @@ class FMLayout : ViewGroup {
             model!!.toParentY = startCenterY
             val index = mSparseArray.get(model.memberEntity.id)
 
-            val personView2 = getChildAt(index) as PersonView2
+            val personView2 = getChildAt(index) as CustPersonView
             model.startCenterX = startCenterX
             personView2.layout(
                 startCenterX + halfItemSpace.toInt(),
@@ -141,7 +144,7 @@ class FMLayout : ViewGroup {
             )
 
             val index1 = mSparseArray.get(model?.memberEntity?.spouseId!!)
-            val spaseView = getChildAt(index1) as PersonView2
+            val spaseView = getChildAt(index1) as CustPersonView
             spaseView.familyMemberModel.toParentX = model!!.toParentX - moveXDistance(1f, 1f)
             spaseView.familyMemberModel.toParentY = model!!.toParentY
             val left = startCenterX - halfItemSpace.toInt() - mItemWidth
@@ -170,7 +173,7 @@ class FMLayout : ViewGroup {
             }
         } else {
             val index = mSparseArray.get(model.memberEntity.id)
-            val view2 = getChildAt(index) as PersonView2
+            val view2 = getChildAt(index) as CustPersonView
             model.startCenterX = startCenterX
             view2.familyMemberModel.toParentX = startCenterX
             view2.familyMemberModel.toParentY = startCenterY
@@ -250,7 +253,7 @@ class FMLayout : ViewGroup {
         if (mDialog != null && mDialog!!.isShowing) {
             return@OnClickListener
         }
-        val id = (it as PersonView2).familyMemberModel?.memberEntity?.id
+        val id = (it as CustPersonView).familyMemberModel?.memberEntity?.id
         Log.e(
             "hcs",
             "id:" + id
@@ -262,22 +265,16 @@ class FMLayout : ViewGroup {
             if (which == 3) {
 
             } else {
-                val intent = Intent(context, Main2Activity::class.java)
+                val intent = Intent(context, InfoActivity::class.java)
                 when (which) {
                     0 -> {
-                        intent.putExtra(
-                            "id",
-                            id
-                        )
-                    }
-                    1 -> {
                         intent.putExtra(
                             "fatherId",
                             id
                         )
 
                     }
-                    2 -> {
+                    1 -> {
                         intent.putExtra(
                             "spouseId",
                             id
@@ -314,7 +311,7 @@ class FMLayout : ViewGroup {
         index = 0
         for (i in 0 until mModels!!.size) {
             val model = mModels[i]
-            val personView2 = PersonView2(context)
+            val personView2 = CustPersonView(context)
             personView2.familyMemberModel = model
             Log.e("hcs", "id:" + mModels[i].memberEntity.id + " index:" + index)
             mSparseArray.put(mModels[i].memberEntity.id, index)//每个id对应的index
@@ -323,7 +320,7 @@ class FMLayout : ViewGroup {
 
             addView(personView2)
             if (personView2.familyMemberModel.memberEntity.spouseId != null) {//增加配偶
-                val spousePersonView2 = PersonView2(context)
+                val spousePersonView2 = CustPersonView(context)
                 index += 1
                 Log.e(
                     "hcs",
