@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat
 import android.util.Log
 import com.hcs.familytree.ui.InfoActivity
 import com.hcs.familytree.R
+import java.util.concurrent.Executors
 
 /**
  * 核心类，负责view的测量，布局，线条的绘制
@@ -30,6 +31,10 @@ class FMLayout : ViewGroup {
     val mItemHeight = DensityUtil.dip2px(context, 80f)
     lateinit var mPaint: Paint
     lateinit var mPath: Path
+    val singleExecutors = Executors.newSingleThreadExecutor()
+    @Volatile
+    var finish = false
+    private var time = 0L
 
     constructor(context: Context) : super(context) {
         init()
@@ -299,56 +304,64 @@ class FMLayout : ViewGroup {
         if (model0 == null) {
             return
         }
+        finish = false
         removeAllViews()
         mModels.clear()
         mLevel = 1
-        toList(model0)
-        mTopParentModel = model0
-        mTopParentModel?.flag = FamilyMemberModel.MOST_TOP_FLAG
-        total = totalMoreNumFromMine(model0)
-        mTotalWidth = total * mItemWidth + (total - 1) * mItemSpace
-        mSparseArray.clear()
-        index = 0
-        for (i in 0 until mModels!!.size) {
-            val model = mModels[i]
-            val personView2 = CustPersonView(context)
-            personView2.familyMemberModel = model
-            Log.e("hcs", "id:" + mModels[i].memberEntity.id + " index:" + index)
-            mSparseArray.put(mModels[i].memberEntity.id, index)//每个id对应的index
-            personView2.parentId = model.memberEntity.fatherId.toString()
-            mLevel = if (model.level > mLevel) model.level else mLevel
+        singleExecutors.execute {
+            toList(model0)
+            mTopParentModel = model0
+            mTopParentModel?.flag = FamilyMemberModel.MOST_TOP_FLAG
+            total = totalMoreNumFromMine(model0)
+            mTotalWidth = total * mItemWidth + (total - 1) * mItemSpace
+            mSparseArray.clear()
+            index = 0
+            for (i in 0 until mModels!!.size) {
+                val model = mModels[i]
+                val personView2 = CustPersonView(context)
+                personView2.familyMemberModel = model
+                Log.e("hcs", "id:" + mModels[i].memberEntity.id + " index:" + index)
+                mSparseArray.put(mModels[i].memberEntity.id, index)//每个id对应的index
+                personView2.parentId = model.memberEntity.fatherId.toString()
+                mLevel = if (model.level > mLevel) model.level else mLevel
 
-            addView(personView2)
-            if (personView2.familyMemberModel.memberEntity.spouseId != null) {//增加配偶
-                val spousePersonView2 = CustPersonView(context)
+                addView(personView2)
+                if (personView2.familyMemberModel.memberEntity.spouseId != null) {//增加配偶
+                    val spousePersonView2 = CustPersonView(context)
+                    index += 1
+                    Log.e(
+                        "hcs",
+                        "id:" + personView2.familyMemberModel.memberEntity.spouseId + " index:" + index
+                    )
+                    mSparseArray.put(
+                        personView2.familyMemberModel.memberEntity.spouseId!!,
+                        index
+                    )//每个id对应的index
+                    addView(spousePersonView2)
+                    var familyMember = FamilyDataBaseHelper.getInstance(context)
+                        .getFamilyMember(personView2.familyMemberModel.memberEntity.spouseId!!)
+                    spousePersonView2.familyMemberModel =
+                        FamilyMemberModel(familyMember)
+                }
                 index += 1
-                Log.e(
-                    "hcs",
-                    "id:" + personView2.familyMemberModel.memberEntity.spouseId + " index:" + index
-                )
-                mSparseArray.put(
-                    personView2.familyMemberModel.memberEntity.spouseId!!,
-                    index
-                )//每个id对应的index
-                addView(spousePersonView2)
-                Thread(
-                    Runnable {
-                        var familyMember = FamilyDataBaseHelper.getInstance(context)
-                            .getFamilyMember(personView2.familyMemberModel.memberEntity.spouseId!!)
-                        spousePersonView2.familyMemberModel =
-                            FamilyMemberModel(familyMember)
-                    }
-                ).start()
-                Thread.sleep(50)
-            }
-            index += 1
 
+            }
+            if (mLevel > 1) {
+                mLevel += 1//model level从零开始
+            }
+            mTotalHeight = mLevel * mItemHeight + (mLevel - 1) * mItemSpace
+            finish = true
         }
-        if (mLevel > 1) {
-            mLevel += 1//model level从零开始
+        //TODO:后期优化改用协程
+        while (true) {//等待子线程完成
+            Thread.sleep(20)
+            if (finish) {
+                finish = false
+                requestLayout()
+                break
+            }
+//            time += 20
         }
-        mTotalHeight = mLevel * mItemHeight + (mLevel - 1) * mItemSpace
-        requestLayout()
     }
 
     fun toList(model0: FamilyMemberModel) {
